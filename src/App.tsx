@@ -8,6 +8,8 @@ interface Task {
   id: number;
   text: string;
   completed: boolean;
+  priority: "low" | "medium" | "high";
+  dueDate?: string; // Add this line
 }
 
 const App: React.FC = () => {
@@ -20,10 +22,14 @@ const App: React.FC = () => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (text: string) => {
+  const addTask = (
+    text: string,
+    priority: "low" | "medium" | "high" = "medium",
+    dueDate?: string
+  ) => {
     setTasks((prevTasks) => [
       ...prevTasks,
-      { id: Date.now(), text, completed: false },
+      { id: Date.now(), text, completed: false, priority, dueDate },
     ]);
   };
 
@@ -31,32 +37,21 @@ const App: React.FC = () => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
-  const toggleTask = (id: number) => {
+  const toggleTask = (id: number, priority: "low" | "medium" | "high") => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
+        task.id === id
+          ? { ...task, completed: !task.completed, priority }
+          : task
       )
     );
-  };
-
-  const clearCompleted = () => {
-    setTasks((prevTasks) => prevTasks.filter((task) => !task.completed));
   };
 
   return (
     <div className="app">
       <h1>TaskZen</h1>
-      <div className="task-counter">
-        <p>Total tasks: {tasks.length}</p>
-        <p>Completed tasks: {tasks.filter((task) => task.completed).length}</p>
-      </div>
       <TaskForm onAdd={addTask} />
       <TaskList tasks={tasks} onDelete={deleteTask} onToggle={toggleTask} />
-      {tasks.some((task) => task.completed) && (
-        <div className="clear-completed" onClick={clearCompleted}>
-          Clear Completed
-        </div>
-      )}
     </div>
   );
 };

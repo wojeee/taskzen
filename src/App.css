@@ -67,4 +67,32 @@
   text-decoration: underline;
 }
 
+.priority {
+  margin-left: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.low {
+  background-color: #6aff6a;
+}
+
+.medium {
+  background-color: #ffd700;
+}
+
+.high {
+  background-color: #ff6363;
+  color: #fff;
+}
+
+/* App.css (continued) */
+.due-date {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #777;
+}
+
 /* Add more styling as needed */
